@@ -1,0 +1,64 @@
+# Configuration for YOLO Object Detection System
+model:
+  # Default model to use
+  default: "yolov8n.pt"
+  
+  # Available models
+  available_models:
+    - "yolov8n.pt"  # Nano - fastest
+    - "yolov8s.pt"  # Small
+    - "yolov8m.pt"  # Medium
+    - "yolov8l.pt"  # Large
+    - "yolov8x.pt"  # Extra Large - most accurate
+    - "yolov7.pt"   # YOLOv7
+  
+  # Model download directory
+  model_dir: "models/"
+  
+  # Confidence threshold for detections
+  confidence_threshold: 0.25
+  
+  # IoU threshold for non-maximum suppression
+  iou_threshold: 0.45
+
+detection:
+  # Image/video processing settings
+  input_size: 640  # YOLO input size
+  max_det: 1000    # Maximum detections per image
+  
+  # Supported image formats
+  image_formats: [".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".webp"]
+  
+  # Supported video formats
+  video_formats: [".mp4", ".avi", ".mov", ".mkv", ".wmv"]
+
+api:
+  # Flask/FastAPI settings
+  host: "0.0.0.0"
+  port: 8000
+  debug: false
+  
+  # File upload settings
+  max_file_size: 50  # MB
+  upload_folder: "uploads/"
+
+streamlit:
+  # Streamlit app settings
+  port: 8501
+  title: "Real-Time Object Detection with YOLO"
+  layout: "wide"
+
+datasets:
+  # Supported datasets
+  coco:
+    classes: 80
+    url: "https://github.com/ultralytics/yolov5/releases/download/v1.0/coco128.zip"
+  
+  pascal_voc:
+    classes: 20
+    url: "https://github.com/ultralytics/yolov5/releases/download/v1.0/VOC.zip"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: "logs/app.log"

@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # FastAPI service
+  yolo-api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../models:/app/models
+      - ../uploads:/app/uploads
+      - ../data:/app/data
+      - ../logs:/app/logs
+    environment:
+      - PYTHONPATH=/app/src
+    command: ["python", "-m", "uvicorn", "src.api.fastapi_app:app", "--host", "0.0.0.0", "--port", "8000"]
+
+  # Flask service (alternative)
+  yolo-flask:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ../models:/app/models
+      - ../uploads:/app/uploads
+      - ../data:/app/data
+      - ../logs:/app/logs
+    environment:
+      - PYTHONPATH=/app/src
+      - FLASK_APP=src/api/flask_app.py
+    command: ["python", "-m", "flask", "run", "--host", "0.0.0.0", "--port", "5000"]
+    profiles:
+      - flask
+
+  # Streamlit service
+  yolo-streamlit:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../models:/app/models
+      - ../uploads:/app/uploads
+      - ../data:/app/data
+      - ../logs:/app/logs
+    environment:
+      - PYTHONPATH=/app/src
+    command: ["streamlit", "run", "src/web/streamlit_app.py", "--server.address", "0.0.0.0", "--server.port", "8501"]
+    profiles:
+      - streamlit
+
+volumes:
+  models:
+  uploads:
+  data:
+  logs:
